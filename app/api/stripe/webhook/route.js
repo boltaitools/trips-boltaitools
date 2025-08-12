@@ -1,9 +1,8 @@
+export const runtime = "nodejs";
 import Stripe from "stripe";
 import { getAdminClient } from "@/lib/supabaseAdmin";
 import { T } from "@/lib/dbTables";
 import { Resend } from "resend";
-
-export const runtime = "nodejs";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" });
 const resend = new Resend(process.env.RESEND_API_KEY);
