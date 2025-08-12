@@ -1,0 +1,37 @@
+
+> trips-boltaitools@0.1.0 build
+> next build
+
+   ▲ Next.js 15.4.6
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 1000ms
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/12) ...
+   Generating static pages (3/12) 
+   Generating static pages (6/12) 
+   Generating static pages (9/12) 
+ ✓ Generating static pages (12/12)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                      142 B        99.7 kB
+├ ○ /_not-found                            992 B         101 kB
+├ ƒ /api/bookings                          142 B        99.7 kB
+├ ƒ /api/email/send                        142 B        99.7 kB
+├ ƒ /api/stripe/webhook                    142 B        99.7 kB
+├ ƒ /api/supabase/health                   142 B        99.7 kB
+├ ƒ /api/trips                             142 B        99.7 kB
+├ ƒ /api/twilio/send                       142 B        99.7 kB
+└ ƒ /email/test                            142 B        99.7 kB
++ First Load JS shared by all            99.6 kB
+  ├ chunks/4bd1b696-cf72ae8a39fa05aa.js  54.1 kB
+  ├ chunks/964-7a34cadcb7695cec.js       43.5 kB
+  └ other shared chunks (total)           1.9 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
