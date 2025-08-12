@@ -1,3 +1,4 @@
+export const runtime = "nodejs"
 import twilio from "twilio";
 
 export async function POST(request) {
