@@ -1,15 +1,29 @@
 export const runtime = "nodejs";
+
 import Stripe from "stripe";
+import { Resend } from "resend";
 import { getAdminClient } from "@/lib/supabaseAdmin";
 import { T } from "@/lib/dbTables";
-import { Resend } from "resend";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: "2024-06-20" });
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getStripe() {
+  const key = process.env.STRIPE_SECRET_KEY;
+  if (!key) throw new Error("Missing STRIPE_SECRET_KEY");
+  return new Stripe(key, { apiVersion: "2024-06-20" });
+}
+
+function getResend() {
+  const key = process.env.RESEND_API_KEY;
+  if (!key) throw new Error("Missing RESEND_API_KEY");
+  return new Resend(key);
+}
 
 export async function POST(request) {
   const sig = request.headers.get("stripe-signature");
   const rawBody = await request.text();
+
+  const stripe = getStripe();     // init INSIDE handler
+  const resend = getResend();     // init INSIDE handler
+  const sb = getAdminClient();
 
   let event;
   try {
@@ -18,9 +32,7 @@ export async function POST(request) {
     return new Response(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
-  const sb = getAdminClient();
-
-  // store event (idempotent)
+  // (optional) store event
   try {
     const payload = JSON.parse(rawBody);
     await sb.from(T.webhookEvents).insert({ id: payload.id, type: payload.type, payload });
@@ -73,6 +85,7 @@ export async function POST(request) {
         });
         break;
       }
+
       default:
         break;
     }
@@ -81,6 +94,11 @@ export async function POST(request) {
   }
 
   return new Response(JSON.stringify({ received: true }), {
-    status: 200, headers: { "Content-Type": "application/json" }
+    status: 200,
+    headers: { "Content-Type": "application/json" }
   });
+}
+
+export function GET() {
+  return new Response("Method Not Allowed", { status: 405 });
 }
