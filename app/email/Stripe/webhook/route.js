@@ -1,8 +1,7 @@
-export const runtime = "nodejs"; // keep this on Node, not Edge
+export const runtime = "nodejs"; // keep webhook on Node runtime
 
 export async function POST(request) {
-  // Minimal placeholder so Stripe can POST successfully.
-  // Later: verify signature using STRIPE_WEBHOOK_SECRET and read raw body.
+  // Placeholder: responds 200 so Stripe deliveries show green.
   return new Response(JSON.stringify({ received: true }), {
     status: 200,
     headers: { "Content-Type": "application/json" }
@@ -10,6 +9,5 @@ export async function POST(request) {
 }
 
 export function GET() {
-  // For non-POST methods, let Stripe (and you) know it's method-limited
   return new Response("Method Not Allowed", { status: 405 });
 }
